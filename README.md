@@ -1,104 +1,97 @@
-# SheRise
+# SheRise — Women Empowerment Platform
 
-**Empowering Women, One Task at a Time**
+[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)](https://flutter.dev)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-2.x-000000?logo=flask)](https://flask.palletsprojects.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
 
-SheRise is a platform built to connect womens offering skills and services (such as Tailoring, Handicrafts, Tutoring, Beauty Services, Elderly Care, Data Entry, etc.) with people seeking those services. It features an AI-powered matching algorithm to recommend jobs based on user skills and locations.
+> **Connecting skilled women with micro-work opportunities, powered by AI matching, verified identities, and a dedicated native mobile experience.**
 
-## Features
+---
 
-- **Skill-Based Job Matching:** AI algorithms recommend the best fitting jobs based on a user's skills and location.
-- **Secure Authentication:** OTP-based login via Email, keeping user accounts secure.
-- **Verification:** Digilocker integration for verifying identities (Aadhaar).
-- **Communication:** Built-in messaging system between job creators and workers.
-- **Real-Time Notifications:** Stay updated on job applications and messages.
+## 🏛️ Project Architecture
 
-## Tech Stack
+This repository contains the complete end-to-end SheRise platform:
 
-- **Backend:** Python, Flask, SQLAlchemy, SQLite
-- **AI/ML:** Groq API for intelligent matching and recommendations
-- **Authentication:** Twilio, Email SMTP, Digilocker API
-- **Frontend:** Pre-built distribution served statically via Flask (`frontend_dist`)
+```
+sherise/
+├── SheRise_Mobile/        # 100% Pure Native Flutter Mobile Application
+│   ├── lib/               # Clean architecture (Riverpod, GoRouter, Dio)
+│   ├── assets/            # App assets, branding, and images
+│   └── android/           # Native Android configuration
+├── SheRise_Web/           # Backend REST API & Web Platform
+│   ├── app.py             # Flask application & API endpoints
+│   ├── frontend_dist/     # Pre-built Web Frontend distribution
+│   ├── requirements.txt   # Python dependencies
+│   └── .env.example       # Environment template
+├── SheRise_AdminPanel/    # Admin Console (React + Vite + TailwindCSS)
+│   ├── src/               # Admin pages, tables, moderation controls
+│   └── package.json       # Admin dependencies
+├── start.bat              # Universal interactive platform launcher
+├── start_all.ps1          # PowerShell launcher for all microservices
+└── start_mobile.bat       # Mobile backend + Flutter app launcher
+```
 
-## Getting Started
+---
 
-### Prerequisites
+## 📱 SheRise Mobile App (Native Flutter)
 
-- Python 3.8+
-- [Groq API Key](https://console.groq.com/)
-- Gmail App Password (for email OTP)
-- Digilocker API Credentials (optional, for verification)
+The mobile app in [`SheRise_Mobile/`](SheRise_Mobile/) is built with pure Flutter widgets with zero WebView dependencies:
 
-### Installation
+- **1:1 Visual Parity:** Clones the web mobile aesthetic with warm blush backgrounds (`#FAF7F7`), serif brand titles, card borders (`#F3E8EC`), and dark slate (`#0F172A`) buttons.
+- **5 Core Navigation Tabs:**
+  1. 💼 **Take Work (`jobs_screen.dart`):** Micro-job listings, AI-recommended opportunities, search with voice assistant, category chips, and application submission.
+  2. 📝 **Give Work (`post_job_screen.dart`):** Structured job posting with escrow online payment, cash on delivery, and budget limits.
+  3. 📍 **Near Me (`near_me_screen.dart`):** Geolocation-based directory of verified women artisans, tailors, cooks, and tutors with direct contact actions.
+  4. 🛡️ **Safety Center (`safety_screen.dart`):** One-touch SOS emergency dispatcher, 24/7 national helpline dialing (`1091`, `112`, `181`), and confidential reporting.
+  5. 👤 **Profile (`profile_screen.dart`):** DigiLocker verification badge, work history, and empowerment subscription tiers (`Free`, `Starter Shakti`, `Pro Empower`).
+- **Universal Mobile Header:** Circular brand logo, Indic language switcher (English, Hindi, Tamil, Telugu, Kannada, Bengali), and real-time notification badge.
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/sairaman436/sherise.git
-   cd sherise
-   ```
+---
 
-2. **Set up a virtual environment (recommended):**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+## 💻 SheRise Web & Backend API
 
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+The backend in [`SheRise_Web/`](SheRise_Web/) provides:
+- **Authentication:** Email & SMS OTP verification with JWT authentication.
+- **AI Matching:** Groq API-powered recommendation engine matching user skills to local opportunities.
+- **Verification:** Sandbox integration with DigiLocker for Aadhaar/identity verification.
+- **Real-Time Notifications:** Dynamic polling and status updates for work applications and messages.
 
-4. **Configure Environment Variables:**
-   Create a `.env` file in the root directory based on the following template:
-   ```env
-   GROQ_API_KEY=your_groq_api_key
-   
-   SMTP_EMAIL=your_email@gmail.com
-   SMTP_PASSWORD=your_16_char_app_password
-   SMTP_HOST=smtp.gmail.com
-   SMTP_PORT=587
+---
 
-   DIGILOCKER_BASE=https://sandbox.digilocker.gov.in
-   DIGILOCKER_CLIENT_ID=your_client_id
-   DIGILOCKER_SECRET=your_client_secret
-   DIGILOCKER_REDIRECT=http://localhost:5175/digilocker-callback
-   ```
+## 🚀 Quick Start & Launching
 
-5. **Run the Application:**
-   ```bash
-   python app.py
-   ```
-   The Flask app will serve the backend API and the static frontend simultaneously.
+### Option 1: Universal Launcher (Windows)
+Double-click [`start.bat`](start.bat) or run from terminal:
 
-## Deployment (PythonAnywhere)
+```cmd
+.\start.bat
+```
+Choose from the interactive menu:
+- `[1]` Web App + Admin Panel (Port 10201 & Port 5173)
+- `[2]` Dedicated Mobile Backend (Port 10202)
+- `[3]` Mobile App on Connected Device
+- `[4]` Launch Everything
 
-This application uses SQLite, which requires a persistent filesystem. [PythonAnywhere](https://www.pythonanywhere.com/) provides a free tier with persistent storage, making it an excellent choice.
+### Option 2: Running the Flutter App Manually
+```bash
+cd SheRise_Mobile
+flutter pub get
+flutter run --dart-define=SHE_RISE_URL=http://127.0.0.1:10202
+```
 
-1. **Create an account** on [PythonAnywhere](https://www.pythonanywhere.com/).
-2. **Open a Bash Console** from the PythonAnywhere dashboard and clone your repository:
-   ```bash
-   git clone https://github.com/sairaman436/sherise.git
-   cd sherise
-   ```
-3. **Create a virtual environment and install dependencies:**
-   ```bash
-   mkvirtualenv --python=/usr/bin/python3.10 myenv
-   pip install -r requirements.txt
-   ```
-4. **Set up Environment Variables:**
-   Create a `.env` file in `/home/yourusername/sherise` with all your secrets (Groq, Twilio, SMTP).
-5. **Configure the Web App:**
-   - Go to the **Web** tab and click **Add a new web app**.
-   - Choose **Manual configuration** and select **Python 3.10**.
-   - Under the **Virtualenv** section, enter the path to your virtual environment (e.g., `/home/yourusername/.virtualenvs/myenv`).
-   - Under the **Code** section, open the **WSGI configuration file**.
-6. **Update WSGI File:**
-   Replace the default WSGI file content with the content from `pythonanywhere_wsgi.py` in this repository (make sure to replace `yourusername` with your actual username!).
-7. **Reload the web app** and visit your live site!
+### Option 3: Running the Web App Manually
+```bash
+cd SheRise_Web
+python -m venv .venv
+# Activate virtual environment
+.venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
 
-## Contribution
+---
 
-Contributions are welcome! Please create an issue or submit a Pull Request.
-
-## License
+## 🛡️ License
 
 This project is licensed under the MIT License.

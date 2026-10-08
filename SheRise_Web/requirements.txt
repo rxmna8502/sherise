@@ -6,3 +6,8 @@ python-dotenv
 requests
 twilio
 psycopg2-binary
+PyJWT==2.8.0
+Flask-Migrate
+argon2-cffi
+Flask-Limiter
+pytest
